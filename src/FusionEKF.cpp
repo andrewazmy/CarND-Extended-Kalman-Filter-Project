@@ -90,7 +90,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       float rho     = measurement_pack.raw_measurements_(0);
       float phi    = measurement_pack.raw_measurements_(1);
       float rho_dot = measurement_pack.raw_measurements_(2);
-      ekf_.x_ << rho * cos(phi), rho * sin(phi), rho_dot * cos(phi), rho_dot * sin(phi);
+      ekf_.x_ << (rho * cos(phi)), (rho * sin(phi)), (rho_dot * cos(phi)), (rho_dot * sin(phi));
+      cout << "initializing radar" << endl;
+      cout << "x_ = " << ekf_.x_ << endl;
+      cout << "P_ = " << ekf_.P_ << endl;
 
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
@@ -105,7 +108,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     is_initialized_ = true;
     return;
   }
-
+  cout << "second observation before prediction" << endl;
+  cout << "x_ = " << ekf_.x_ << endl;
+  cout << "P_ = " << ekf_.P_ << endl;
   /*****************************************************************************
    *  Prediction
    ****************************************************************************/
@@ -140,6 +145,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
              dt_3 / 2 * noise_ax, 0, dt_2*noise_ax, 0,
              0, dt_3 / 2 * noise_ay, 0, dt_2*noise_ay;
   ekf_.Predict();
+
+  cout << "second observation after prediction, before update" << endl;
+  cout << "x_ = " << ekf_.x_ << endl;
+  cout << "P_ = " << ekf_.P_ << endl;
 
   /*****************************************************************************
    *  Update
