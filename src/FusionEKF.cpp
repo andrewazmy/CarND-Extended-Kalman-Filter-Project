@@ -95,9 +95,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       float rho_dot = measurement_pack.raw_measurements_(2);
       //set position with values obtained from radar
       ekf_.x_ << (rho * cos(phi)), (rho * sin(phi)),(rho_dot * cos(phi)), (rho_dot * sin(phi));// 0, 0;
-      cout << "initializing radar" << endl;
-      cout << "x_ = " << ekf_.x_ << endl;
-      cout << "P_ = " << ekf_.P_ << endl;
+      //cout << "initializing radar" << endl;
+      //cout << "x_ = " << ekf_.x_ << endl;
+      //cout << "P_ = " << ekf_.P_ << endl;
 
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
@@ -113,9 +113,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     previous_timestamp_ = measurement_pack.timestamp_;
     return;
   }
-  cout << "second observation before prediction" << endl;
-  cout << "x_ = " << ekf_.x_ << endl;
-  cout << "P_ = " << ekf_.P_ << endl;
+  //cout << "second observation before prediction" << endl;
+  //cout << "x_ = " << ekf_.x_ << endl;
+  //cout << "P_ = " << ekf_.P_ << endl;
   /*****************************************************************************
    *  Prediction
    ****************************************************************************/
@@ -151,9 +151,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
              0, dt_3 / 2 * noise_ay, 0, dt_2*noise_ay;
   ekf_.Predict();
 
-  cout << "second observation after prediction, before update" << endl;
-  cout << "x_ = " << ekf_.x_ << endl;
-  cout << "P_ = " << ekf_.P_ << endl;
+  //cout << "second observation after prediction, before update" << endl;
+  //cout << "x_ = " << ekf_.x_ << endl;
+  //cout << "P_ = " << ekf_.P_ << endl;
 
   /*****************************************************************************
    *  Update
