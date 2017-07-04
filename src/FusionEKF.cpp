@@ -71,6 +71,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   /*****************************************************************************
    *  Initialization
    ****************************************************************************/
+  // if(previous_timestamp_ >= measurement_pack.timestamp_){
+  //   is_initialized_ = false;
+  // }
   if (!is_initialized_) {
     /**
     TODO:
@@ -90,7 +93,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       float rho     = measurement_pack.raw_measurements_(0);
       float phi    = measurement_pack.raw_measurements_(1);
       float rho_dot = measurement_pack.raw_measurements_(2);
-      ekf_.x_ << (rho * cos(phi)), (rho * sin(phi)), (rho_dot * cos(phi)), (rho_dot * sin(phi));
+      //set position with values obtained from radar
+      ekf_.x_ << (rho * cos(phi)), (rho * sin(phi)),(rho_dot * cos(phi)), (rho_dot * sin(phi));// 0, 0;
       cout << "initializing radar" << endl;
       cout << "x_ = " << ekf_.x_ << endl;
       cout << "P_ = " << ekf_.P_ << endl;
@@ -106,6 +110,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     // done initializing, no need to predict or update
     is_initialized_ = true;
+    previous_timestamp_ = measurement_pack.timestamp_;
     return;
   }
   cout << "second observation before prediction" << endl;
